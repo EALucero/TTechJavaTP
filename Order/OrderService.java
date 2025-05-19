@@ -7,7 +7,7 @@ import PE_EAL.Product.Product;
 import PE_EAL.Utils.MenUtils;
 
 public class OrderService {
-/* 
+
     public void methods(List<Order> or) { 
         System.out.println("# Manejo de Pedidos #\n");
         System.out.println("Eliga una opción:\n");
@@ -15,13 +15,13 @@ public class OrderService {
                 "4. Obtener Producto\t", "5. Salir" };
         final Scanner sc = new Scanner(System.in);
 
-        int op = MenUtils.getOption(1, options.length + 1, options);
+        int op = MenUtils.getOption(1, options.length + 1, options, sc);
 
         switch (op) {
-            case 1 -> createProduct(null);
-            case 2 -> updateProduct(null);
-            case 3 -> deleteProduct(0);
-            case 4 -> getProduct(0);
+            case 1 -> createOrder(null);
+            case 2 -> updateOrder(null);
+            case 3 -> deleteOrder(0);
+            case 4 -> getOrder(0);
             case 5 -> System.out.println("Saliendo...");
         }
         // orderService.addOrder(new Order(1, "2023-10-01", "Customer 1", 100.0));
@@ -31,6 +31,7 @@ public class OrderService {
         // double total = orderService.calculateTotal();
     }
 
+    /* 
     public void addOrder(Order or) {
         List<Order> orders = new ArrayList<>();
         orders.add(or);

@@ -14,56 +14,60 @@ public class ProductService {
         System.out.println("Eliga una opción:\n");
         String[] options = { "1. Crear Producto\t", "2. Actualizar Producto\t", "3. Eliminar Producto\t",
                 "4. Obtener Producto\t", "5. Salir" };
+        ;
+        MenUtils.printOptions(options);
 
-        int opPr;
+        int opPr = sc.nextInt();
+
+        while (opPr < 1 || opPr > options.length) {
+            System.out.println("Opción inválida:\n");
+            MenUtils.printOptions(options);
+            opPr = sc.nextInt();
+        }
+
+        System.out.println(options.length);
 
         do {
-            opPr = MenUtils.getOption(1, options.length + 1, options, sc);
-
-            switch (opPr) {
-                case 1:
-                    createProduct(products);
-                    break;
-                case 2:
-                    updateProduct(products);
-                    break;
-                case 3: {
+             switch (opPr) {
+                case 1 -> createProduct(products);
+                case 2 -> updateProduct(products);
+                case 3 -> {
                     System.out.println("Ingrese el ID del producto a eliminar:");
                     int productId = sc.nextInt();
                     deleteProduct(products, productId);
                 }
-                    ;
-                    break;
-                case 4: {
+                case 4 -> {
                     System.out.println("Ingrese el ID del producto a obtener:");
                     int productId = sc.nextInt();
                     getProduct(productId);
                 }
-                    ;
-                    break;
-                case 5:
-                    System.out.println("Saliendo...");
-                    break;
+                default -> System.out.println("Opción inválida.");
             }
-        } while (opPr != 5);
+
+            System.out.println("Elija una opción:\n");
+            MenUtils.printOptions(options);
+            opPr = sc.nextInt();
+        } while (opPr != options.length);
+
+        System.out.println("Saliendo...");
     }
 
     public void createProduct(List<Product> products) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scP = new Scanner(System.in);
 
         System.out.println("# Crear Producto #\n");
         System.out.println("Ingrese el nombre del producto:");
-        String name = sc.nextLine();
+        String name = scP.next();
         System.out.println("Ingrese la descripción del producto:");
-        String description = sc.nextLine();
+        String description = scP.next();
         System.out.println("Ingrese el precio del producto:");
-        double price = sc.nextDouble();
+        double price = scP.nextDouble();
+        scP.nextLine();
 
         Product pr = new Product(name, description, price);
         products.add(pr);
-        System.out.println("Product created: " + pr);
+        System.out.println("Product created: " + pr.toString());
 
-        sc.close();
     }
 
     public void updateProduct(List<Product> products) {

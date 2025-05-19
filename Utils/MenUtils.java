@@ -3,6 +3,7 @@ package PE_EAL.Utils;
 import java.util.Scanner;
 
 public class MenUtils {
+    public static final Scanner sc = new Scanner(System.in);
     
     public static void printOptions(String[] options) {
         for (String option : options) {
@@ -10,7 +11,7 @@ public class MenUtils {
         }
     }
 
-    public static int getOption(int min, int max, String[] options, Scanner sc) {
+    public static int getOption(int min, int max, String[] options) {
         System.out.println("Elija una opción:\n");
         printOptions(options);
         int op = sc.nextInt();
