@@ -12,11 +12,9 @@ public class ProductService {
 
         System.out.println("# Manejo de Productos #\n");
         System.out.println("Eliga una opción:\n");
-        String[] options = { "1. Crear Producto\t", "2. Actualizar Producto\t", "3. Eliminar Producto\t",
-                "4. Obtener Producto\t", "5. Volver" };
-        MenUtils.printOptions(options);
+        String[] options = { "1. Crear producto\t", "2. Listar productos\t", "3. Eliminar Producto\t", "4. Obtener Producto\t", "5. Volver" };
 
-        int opPr = sc.nextInt();
+        int opPr = MenUtils.getOption(1, options.length + 1, options);
 
         while (opPr < 1 || opPr > options.length) {
             System.out.println("Opción inválida:\n");
@@ -30,18 +28,13 @@ public class ProductService {
                     createProduct(products);
                     break;
                 case 2:
-                    updateProduct(products);
+                    listProducts(products);
                     break;
-                case 3: {
-                    System.out.println("Ingrese el ID del producto a eliminar:");
-                    int productId = sc.nextInt();
-                    deleteProduct(products, productId);
+                case 3:
+                    getProductByNameOrId(products);
                     break;
-                }
                 case 4: {
-                    System.out.println("Ingrese el ID del producto a obtener:");
-                    int productId = sc.nextInt();
-                    getProduct(productId);
+                    deleteProduct(products, opPr);
                     break;
                 }
             }
@@ -51,7 +44,7 @@ public class ProductService {
             opPr = sc.nextInt();
         }
 
-        System.out.println("<=\n");   
+        System.out.println("<=\n");
         options = new String[] { "1. Manejar Productos\t", "2. Manejar Pedidos\t", "3. Salir" };
         MenUtils.menuMain(options);
     }
@@ -60,45 +53,116 @@ public class ProductService {
         Scanner scP = new Scanner(System.in);
 
         System.out.println("# Crear Producto #\n");
-        System.out.println("Ingrese el nombre del producto:");
+        System.out.println("Ingrese el nombre:");
         String name = scP.next();
-        System.out.println("Ingrese la descripción del producto:");
-        String description = scP.next();
-        System.out.println("Ingrese el precio del producto:");
+        System.out.println("Ingrese el precio:");
         double price = scP.nextDouble();
+        System.out.println("Ingrese la cantidad:");
+        int quantity = scP.nextInt();
         scP.nextLine();
 
-        Product pr = new Product(name, description, price);
+        Product pr = new Product(name, price, quantity);
         products.add(pr);
         System.out.println("Product created: " + pr.toString());
+    }
 
+    public void listProducts(List<Product> products) {
+        for (int i = 0; i < products.size(); i++) {
+            System.out.println(products.get(i).toString());
+        }
+    }
+
+    public void getProductByNameOrId(List<Product> products) {
+        System.out.println("# Obtener Producto #\n");
+        System.out.println("1. Nombre\t" + "2. ID");
+        Scanner sc = new Scanner(System.in);
+        int opNi = sc.nextInt();
+
+        while (opNi < 1 || opNi > 2) {
+            System.out.println("Opción inválida:\n");
+            System.out.println("1. Nombre\t" + "2. ID");
+            opNi = sc.nextInt();
+        }
+
+        if (products.isEmpty()) {
+            System.out.println("No hay productos disponibles.");
+            return;
+        } else {
+            if (opNi == 1) {
+                System.out.println("Ingrese el nombre del producto:");
+                String name = sc.next();
+
+                for (Product product : products) {
+                    if (product.getProductName().equalsIgnoreCase(name)) {
+                        System.out.println(product.toString());
+                        return;
+                    }
+                }
+
+                System.out.println("No se encontró el producto con el nombre: " + name);
+                return;
+            } else if (opNi == 2) {
+                System.out.println("Ingrese el ID del producto:");
+                opNi = sc.nextInt();
+
+                for (Product product : products) {
+                    if (product.getProductId() == opNi) {
+                        System.out.println(product.toString());
+                        return;
+                    }
+                }
+
+                System.out.println("No se encontró el producto con el ID: " + opNi);
+                return;
+            }
+        }
     }
 
     public void updateProduct(List<Product> products) {
         if (products != null) {
             System.out.println("# Actualizar Producto #\n");
             System.out.println("Ingrese el ID del producto a actualizar:");
-            Scanner sc = new Scanner(System.in);
-            int productId = sc.nextInt();
-            System.out.println("Ingrese el nuevo nombre del producto:");
-            /*
-             * for (int i = 0; i < products.size(); i++) {
-             * if (products.get(i).getProductId() == product.getProductId()) {
-             * products.set(i, product);
-             * System.out.println("Product updated: " + product);
-             * return;
-             * }
-             * }
-             */
+            Scanner scU = new Scanner(System.in);
+            int productId = scU.nextInt();
+
+            for (int i = 0; i < products.size(); i++) {
+                if (products.get(i).getProductId() == productId) {
+                    System.out.println("Ingrese el nuevo nombre del producto:");
+                    String name = scU.next();
+                    System.out.println("Ingrese el nuevo precio del producto:");
+                    double price = scU.nextDouble();
+                    System.out.println("Ingrese la nueva cantidad del producto:");
+                    int quantity = scU.nextInt();
+
+                    Product product = new Product(name, price, quantity);
+                    products.set(i, product);
+                    System.out.println("Product updated: " + product.toString());
+                    return;
+                }
+            }
         }
     }
 
     public void deleteProduct(List<Product> products, int productId) {
-        // Logic to delete a product
-    }
+        System.out.println("# Eliminar Producto #\n");
+        System.out.println("Ingrese el ID del producto a eliminar:");
+        Scanner scD = new Scanner(System.in);
+        productId = scD.nextInt();
+        
+        if (products.isEmpty()) {
+            System.out.println("No hay productos disponibles.");
+            return;
+        }
 
-    public Product getProduct(int productId) {
-        // Logic to retrieve a product by ID
-        return null; // Placeholder return statement
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getProductId() == productId) {
+                products.remove(i);
+                System.out.println("Producto eliminado.");
+                return;
+            }
+        }
+
+        System.out.println("No se encontró el producto con el ID: " + productId);
+        return;
     }
 }

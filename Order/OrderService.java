@@ -1,9 +1,6 @@
 package PE_EAL.Order;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
-import PE_EAL.Product.Product;
+import java.util.List;
 import PE_EAL.Utils.MenUtils;
 
 public class OrderService {
@@ -11,11 +8,10 @@ public class OrderService {
     public void methods(List<Order> or) { 
         System.out.println("# Manejo de Pedidos #\n");
         System.out.println("Eliga una opción:\n");
-        String[] options = { "1. Crear Producto\t", "2. Actualizar Producto\t", "3. Eliminar Producto\t",
+        String[] options = { "1. Crear Pedido\t", "2. Actualizar Producto\t", "3. Eliminar Producto\t",
                 "4. Obtener Producto\t", "5. Salir" };
-        final Scanner sc = new Scanner(System.in);
 
-        int op = MenUtils.getOption(1, options.length + 1, options, sc);
+        int op = MenUtils.getOption(1, options.length + 1, options);
 
         switch (op) {
             case 1 -> createOrder(null);
