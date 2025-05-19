@@ -13,8 +13,7 @@ public class ProductService {
         System.out.println("# Manejo de Productos #\n");
         System.out.println("Eliga una opción:\n");
         String[] options = { "1. Crear Producto\t", "2. Actualizar Producto\t", "3. Eliminar Producto\t",
-                "4. Obtener Producto\t", "5. Salir" };
-        ;
+                "4. Obtener Producto\t", "5. Volver" };
         MenUtils.printOptions(options);
 
         int opPr = sc.nextInt();
@@ -25,31 +24,36 @@ public class ProductService {
             opPr = sc.nextInt();
         }
 
-        System.out.println(options.length);
-
-        do {
-             switch (opPr) {
-                case 1 -> createProduct(products);
-                case 2 -> updateProduct(products);
-                case 3 -> {
+        while (opPr != options.length) {
+            switch (opPr) {
+                case 1:
+                    createProduct(products);
+                    break;
+                case 2:
+                    updateProduct(products);
+                    break;
+                case 3: {
                     System.out.println("Ingrese el ID del producto a eliminar:");
                     int productId = sc.nextInt();
                     deleteProduct(products, productId);
+                    break;
                 }
-                case 4 -> {
+                case 4: {
                     System.out.println("Ingrese el ID del producto a obtener:");
                     int productId = sc.nextInt();
                     getProduct(productId);
+                    break;
                 }
-                default -> System.out.println("Opción inválida.");
             }
 
             System.out.println("Elija una opción:\n");
             MenUtils.printOptions(options);
             opPr = sc.nextInt();
-        } while (opPr != options.length);
+        }
 
-        System.out.println("Saliendo...");
+        System.out.println("<=\n");   
+        options = new String[] { "1. Manejar Productos\t", "2. Manejar Pedidos\t", "3. Salir" };
+        MenUtils.menuMain(options);
     }
 
     public void createProduct(List<Product> products) {
