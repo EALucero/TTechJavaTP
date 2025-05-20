@@ -15,22 +15,37 @@ public class OrderService {
 
         System.out.println("# Manejo de Pedidos #\n");
         System.out.println("Eliga una opción:\n");
-        String[] options = { "1. Crear Pedido\t", "2. Actualizar Producto\t", "3. Eliminar Producto\t",
-                "4. Obtener Producto\t", "5. Salir" };
+        String[] options = { "1. Crear pedido\t", "2. Listar pedidos", "3. Salir" };
 
-        int op = MenUtils.getOption(1, options.length + 1, options);
+        int opOr = MenUtils.getOption(1, options.length + 1, options);
 
-        switch (op) {
-            case 1 : addOrder(orders, products);
-            break;
-            case 2 : listOrders(orders);
-            break;
-             /* 
-             * case 3 -> deleteOrder(0);
-             * case 4 -> getOrder(0);
-             */
-            case 5 : System.out.println("Saliendo...");
+        while (opOr < 1 || opOr > options.length) {
+            System.out.println("Opción inválida:\n");
+            MenUtils.printOptions(options);
+            opOr = sc.nextInt();
         }
+
+        while (opOr != options.length) {
+            switch (opOr) {
+                case 1:
+                    addOrder(orders, products);
+                    break;
+                case 2:
+                    listOrders(orders);
+                    break;
+                case 3:
+                    System.out.println("Saliendo...");
+                    break;
+            }
+
+            System.out.println("Elija una opción:\n");
+            MenUtils.printOptions(options);
+            opOr = sc.nextInt();
+        }
+
+        System.out.println("<=\n");
+        options = new String[] { "1. Manejar Productos\t", "2. Manejar Pedidos\t", "3. Salir" };
+        MenUtils.menuMain(options);
     }
 
     public void addOrder(List<Order> orders, List<Product> products) {
