@@ -14,8 +14,7 @@ public class OrderService {
         final Scanner sc = new Scanner(System.in);
 
         System.out.println("# Manejo de Pedidos #\n");
-        System.out.println("Eliga una opción:\n");
-        String[] options = { "1. Crear pedido\t", "2. Listar pedidos", "3. Salir" };
+        String[] options = { "1. Crear pedido\t", "2. Listar pedidos", "3. Volver" };
 
         int opOr = MenUtils.getOption(1, options.length + 1, options);
 
@@ -44,8 +43,7 @@ public class OrderService {
         }
 
         System.out.println("<=\n");
-        options = new String[] { "1. Manejar Productos\t", "2. Manejar Pedidos\t", "3. Salir" };
-        MenUtils.menuMain(options);
+        return;
     }
 
     public void addOrder(List<Order> orders, List<Product> products) {
@@ -63,14 +61,13 @@ public class OrderService {
         System.out.println("Ingrese el nombre del cliente:");
         String customerName = scO.next();
         System.out.println("Ingrese los productos a comprar (por ID) o '0' para terminar:");
+        productService.listProducts(products);
 
         Product aux;
         double total = 0;
         int opO = scO.nextInt();
 
         while (opO != -1) {
-            productService.listProducts(products);
-
             if (opO == 0) {
                 break;
             }
@@ -100,7 +97,6 @@ public class OrderService {
 
                     System.out.println("Ingrese el ID del siguiente producto o '0' para terminar:");
                     opO = scO.nextInt();
-                    return;
                 }
             }
         }
@@ -110,6 +106,12 @@ public class OrderService {
     }
 
     public void listOrders(List<Order> orders) {
+        if (orders.isEmpty()) {
+            System.out.println("No hay productos disponibles.");
+            return;
+        }
+
+        System.out.println("# Listar Pedidos #\n");
         for (int i = 0; i < orders.size(); i++) {
             System.out.println(orders.get(i).toString());
         }

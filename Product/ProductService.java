@@ -11,7 +11,6 @@ public class ProductService {
         final Scanner sc = new Scanner(System.in);
 
         System.out.println("# Manejo de Productos #\n");
-        System.out.println("Eliga una opción:\n");
         String[] options = { "1. Crear producto\t", "2. Listar productos\t", "3. Obtener producto\t",
                 "4. Editar producto\t", "5. Eliminar producto\t", "6. Volver" };
 
@@ -46,8 +45,7 @@ public class ProductService {
         }
 
         System.out.println("<=\n");
-        options = new String[] { "1. Manejar Productos\t", "2. Manejar Pedidos\t", "3. Salir" };
-        MenUtils.menuMain(options);
+        return;
     }
 
     public void createProduct(List<Product> products) {
