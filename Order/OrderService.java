@@ -21,13 +21,15 @@ public class OrderService {
         int op = MenUtils.getOption(1, options.length + 1, options);
 
         switch (op) {
-            case 1 -> addOrder(orders, products);
-            /*
-             * case 2 -> updateOrder(null);
+            case 1 : addOrder(orders, products);
+            break;
+            case 2 : listOrders(orders);
+            break;
+             /* 
              * case 3 -> deleteOrder(0);
              * case 4 -> getOrder(0);
              */
-            case 5 -> System.out.println("Saliendo...");
+            case 5 : System.out.println("Saliendo...");
         }
     }
 
@@ -90,5 +92,11 @@ public class OrderService {
 
         orders.add(new Order(customerName, total, lineOrder));
         System.out.println("Total del pedido: $" + total);
+    }
+
+    public void listOrders(List<Order> orders) {
+        for (int i = 0; i < orders.size(); i++) {
+            System.out.println(orders.get(i).toString());
+        }
     }
 }
