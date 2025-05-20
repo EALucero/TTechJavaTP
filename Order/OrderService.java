@@ -1,11 +1,18 @@
 package PE_EAL.Order;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import PE_EAL.Product.Product;
+import PE_EAL.Product.ProductService;
 import PE_EAL.Utils.MenUtils;
 
 public class OrderService {
 
-    public void methods(List<Order> or) { 
+    public void methods(List<Order> orders, List<Product> products) {
+        final Scanner sc = new Scanner(System.in);
+
         System.out.println("# Manejo de Pedidos #\n");
         System.out.println("Eliga una opción:\n");
         String[] options = { "1. Crear Pedido\t", "2. Actualizar Producto\t", "3. Eliminar Producto\t",
@@ -14,105 +21,74 @@ public class OrderService {
         int op = MenUtils.getOption(1, options.length + 1, options);
 
         switch (op) {
-            case 1 -> createOrder(null);
-            case 2 -> updateOrder(null);
-            case 3 -> deleteOrder(0);
-            case 4 -> getOrder(0);
+            case 1 -> addOrder(orders, products);
+            /*
+             * case 2 -> updateOrder(null);
+             * case 3 -> deleteOrder(0);
+             * case 4 -> getOrder(0);
+             */
             case 5 -> System.out.println("Saliendo...");
         }
-        // orderService.addOrder(new Order(1, "2023-10-01", "Customer 1", 100.0));
-        // orderService.removeArticle(new Article("Article 1", 20.0));
-        // orderService.clearArticles();
-        // int articleCount = orderService.getArticleCount();
-        // double total = orderService.calculateTotal();
     }
 
-    /* 
-    public void addOrder(Order or) {
-        List<Order> orders = new ArrayList<>();
-        orders.add(or);
-    }
+    public void addOrder(List<Order> orders, List<Product> products) {
+        ProductService productService = new ProductService();
+        List<Product> lineOrder = new ArrayList<>();
+        Scanner scO = new Scanner(System.in);
 
-    public void removeProduct(Product pr) {
-        products.remove(pr);
-    }
+        if (products.isEmpty()) {
+            System.out.println("No hay productos disponibles.");
+            return;
+        }
 
-    public void clearProducts() {
-        products.clear();
-    }
+        System.out.println("# Crear Pedido #\n");
 
-    public int getArticleCount() {
-        return articles.size();
-    }
+        System.out.println("Ingrese el nombre del cliente:");
+        String customerName = scO.next();
+        System.out.println("Ingrese los productos a comprar (por ID) o '0' para terminar:");
 
-    public double calculateTotal() {
+        Product aux;
         double total = 0;
-        for (Article article : articles) {
-            total += article.getPrice();
+        int opO = scO.nextInt();
+
+        while (opO != -1) {
+            productService.listProducts(products);
+
+            if (opO == 0) {
+                break;
+            }
+
+            for (Product product : products) {
+                if (product.getProductId() == opO) {
+                    System.out.println("Producto encontrado: " + product.getProductName());
+                    System.out.println("Cantidad:");
+                    int opNi = scO.nextInt();
+
+                    if (opNi <= 0) {
+                        System.out.println("Cantidad inválida.");
+                        return;
+                    }
+
+                    if (opNi > product.getProductQuantity()) {
+                        System.out.println("No hay suficiente stock.");
+                        return;
+                    }
+
+                    aux = new Product(product.getProductName(), product.getProductPrice() * opNi, opNi);
+                    total += product.getProductPrice() * opNi;
+                    product.setProductQuantity(product.getProductQuantity() - opNi);
+
+                    lineOrder.add(aux);
+                    System.out.println("Producto agregado: " + aux.toString());
+
+                    System.out.println("Ingrese el ID del siguiente producto o '0' para terminar:");
+                    opO = scO.nextInt();
+                    return;
+                }
+            }
         }
-        return total;
+
+        orders.add(new Order(customerName, total, lineOrder));
+        System.out.println("Total del pedido: $" + total);
     }
-
-    public void printOrderDetails() {
-        System.out.println("Order ID: " + id);
-        System.out.println("Order Date: " + date);
-        System.out.println("Customer Name: " + customerName);
-        System.out.println("Total Amount: " + total);
-        System.out.println("Articles in Order:");
-        for (Article article : articles) {
-            System.out.println("- " + article.getName() + ": " + article.getPrice());
-        }
-    } */
- /* public void addArticle(Article article) {
-        articles.add(article);
-    }
-
-    public void removeArticle(Article article) {
-        articles.remove(article);
-    }
-
-    public void clearArticles() {
-        articles.clear();
-    }
-
-    public int getArticleCount() {
-        return articles.size();
-    }
-
-    public double calculateTotal() {
-        double total = 0;
-        for (Article article : articles) {
-            total += article.getPrice();
-        }
-        return total;
-    }
-
-    public void printOrderDetails() {
-        System.out.println("Order ID: " + id);
-        System.out.println("Order Date: " + date);
-        System.out.println("Customer Name: " + customerName);
-        System.out.println("Total Amount: " + total);
-        System.out.println("Articles in Order:");
-        for (Article article : articles) {
-            System.out.println("- " + article.getName() + ": " + article.getPrice());
-        }
-    } */
-
-    public void createOrder(Order order) {
-        // Logic to create a new order  
-    }
-
-    public void updateOrder(Order order) {
-        // Logic to update an order
-    }
-
-    public void deleteOrder(int orderId) {
-        // Logic to delete an order
-    }
-
-    public Order getOrder(int orderId) {
-        // Logic to retrieve an order by ID
-        return null; // Placeholder return statement
-    }
-
 }

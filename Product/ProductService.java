@@ -12,7 +12,8 @@ public class ProductService {
 
         System.out.println("# Manejo de Productos #\n");
         System.out.println("Eliga una opción:\n");
-        String[] options = { "1. Crear producto\t", "2. Listar productos\t", "3. Eliminar Producto\t", "4. Obtener Producto\t", "5. Volver" };
+        String[] options = { "1. Crear producto\t", "2. Listar productos\t", "3. Obtener producto\t",
+                "4. Editar producto\t", "5. Eliminar producto\t", "6. Volver" };
 
         int opPr = MenUtils.getOption(1, options.length + 1, options);
 
@@ -34,7 +35,7 @@ public class ProductService {
                     getProductByNameOrId(products);
                     break;
                 case 4: {
-                    deleteProduct(products, opPr);
+                    deleteProduct(products);
                     break;
                 }
             }
@@ -72,8 +73,14 @@ public class ProductService {
         }
     }
 
-    public void getProductByNameOrId(List<Product> products) {
+    public Product getProductByNameOrId(List<Product> products) {
         System.out.println("# Obtener Producto #\n");
+
+        if (products.isEmpty()) {
+            System.out.println("No hay productos disponibles.");
+            return null;
+        }
+
         System.out.println("1. Nombre\t" + "2. ID");
         Scanner sc = new Scanner(System.in);
         int opNi = sc.nextInt();
@@ -84,38 +91,36 @@ public class ProductService {
             opNi = sc.nextInt();
         }
 
-        if (products.isEmpty()) {
-            System.out.println("No hay productos disponibles.");
-            return;
-        } else {
-            if (opNi == 1) {
-                System.out.println("Ingrese el nombre del producto:");
-                String name = sc.next();
+        if (opNi == 1) {
+            System.out.println("Ingrese el nombre del producto:");
+            String name = sc.next();
 
-                for (Product product : products) {
-                    if (product.getProductName().equalsIgnoreCase(name)) {
-                        System.out.println(product.toString());
-                        return;
-                    }
+            for (Product product : products) {
+                if (product.getProductName().equalsIgnoreCase(name)) {
+                    System.out.println(product.toString());
+                    return product;
                 }
-
-                System.out.println("No se encontró el producto con el nombre: " + name);
-                return;
-            } else if (opNi == 2) {
-                System.out.println("Ingrese el ID del producto:");
-                opNi = sc.nextInt();
-
-                for (Product product : products) {
-                    if (product.getProductId() == opNi) {
-                        System.out.println(product.toString());
-                        return;
-                    }
-                }
-
-                System.out.println("No se encontró el producto con el ID: " + opNi);
-                return;
             }
+
+            System.out.println("No se encontró el producto con el nombre: " + name);
+            return null;
+        } else if (opNi == 2) {
+            System.out.println("Ingrese el ID del producto:");
+            opNi = sc.nextInt();
+
+            for (Product product : products) {
+                if (product.getProductId() == opNi) {
+                    System.out.println(product.toString());
+                    return product;
+                }
+            }
+
+            System.out.println("No se encontró el producto con el ID: " + opNi);
+            return null;
         }
+
+        System.out.println("Opción inválida:\n");
+        return null;
     }
 
     public void updateProduct(List<Product> products) {
@@ -143,12 +148,12 @@ public class ProductService {
         }
     }
 
-    public void deleteProduct(List<Product> products, int productId) {
+    public void deleteProduct(List<Product> products) {
         System.out.println("# Eliminar Producto #\n");
         System.out.println("Ingrese el ID del producto a eliminar:");
         Scanner scD = new Scanner(System.in);
-        productId = scD.nextInt();
-        
+        int productId = scD.nextInt();
+
         if (products.isEmpty()) {
             System.out.println("No hay productos disponibles.");
             return;

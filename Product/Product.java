@@ -43,11 +43,15 @@ public class Product {
         return quantity;
     }
 
+    public void setProductQuantity(int productQuantity) {
+        this.quantity = productQuantity;
+    }
+
     public void setProductDescription(int productQuantity) {
         this.quantity = productQuantity;
     }
 
-    public void mostrar() {
+    public void show() {
         System.out.println("ID: " + id + " | Nombre: " + name + " | Precio: $" + price+ " | Cantidad: " + quantity);
     }
 

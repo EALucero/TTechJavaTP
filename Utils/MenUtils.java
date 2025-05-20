@@ -11,26 +11,24 @@ import PE_EAL.Product.ProductService;
 
 public class MenUtils {
     public static final Scanner sc = new Scanner(System.in);
-    
 
     public static void menuMain(String[] options) {
         ProductService productService = new ProductService();
         OrderService orderService = new OrderService();
- 
+
+        List<Product> products = new ArrayList<>();
+        List<Order> orders = new ArrayList<>();
+
         int op = getOption(1, options.length + 1, options);
 
         do {
             switch (op) {
-                case 1: {
-                    List<Product> products = new ArrayList<>();
+                case 1:
                     productService.methods(products);
                     break;
-                }
-                case 2: {
-                    List<Order> orders = new ArrayList<>();
-                    orderService.methods(orders);
+                case 2:
+                    orderService.methods(orders, products);
                     break;
-                }
                 case 3:
                     System.out.println("Saliendo...");
                     break;
@@ -38,8 +36,8 @@ public class MenUtils {
         } while (op != 3);
 
         System.exit(0);
-    } 
-    
+    }
+
     public static void printOptions(String[] options) {
         for (String option : options) {
             System.out.println(option);
@@ -59,14 +57,4 @@ public class MenUtils {
 
         return op;
     }
-
-      
-
-    public static void menuProducts(String[] options) {
-        
-    }  
-
-    public static void menuOrders(String[] options) {
-        
-    }  
 }

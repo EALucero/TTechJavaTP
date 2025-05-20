@@ -1,36 +1,26 @@
 package PE_EAL.Order;
+
 import java.util.ArrayList;
 import java.util.List;
 import PE_EAL.Product.Product;
 
 public class Order {
     private int id;
-    private String date;
     private String name;
     private double total;
     private List<Product> products = new ArrayList<Product>();
 
-    public Order(int orderId, String orderDate, String customerName, double totalAmount) {
-        this.id = orderId;
-        this.date = orderDate;
+    private static int nextId = 1;
+
+    public Order(String customerName, double totalAmount, List<Product> products) {
+        this.id = nextId++;
         this.name = customerName;
         this.total = totalAmount;
+        this.products = products;
     }
 
     public int getOrderId() {
         return id;
-    }
-
-    public void setOrderId(int orderId) {
-        this.id = orderId;
-    }
-
-    public String getOrderDate() {
-        return date;
-    }
-
-    public void setOrderDate(String orderDate) {
-        this.date = orderDate;
     }
 
     public String getCustomerName() {
@@ -52,8 +42,17 @@ public class Order {
     public List<Product> getProducts() {
         return products;
     }
-    
+
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
+    }
+
+    public void show() {
+        System.out.println("ID: " + id + " | Cliente: " + name + " | Total: $" + total);
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + "Cliente: " + name + ", Total: $" + total + ".";
     }
 }
