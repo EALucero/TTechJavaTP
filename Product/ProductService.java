@@ -32,8 +32,10 @@ public class ProductService {
                     break;
                 case 3:
                     getProductByNameOrId(products);
+                case 4:
+                    updateProduct(products);
                     break;
-                case 4: {
+                case 5: {
                     deleteProduct(products);
                     break;
                 }
