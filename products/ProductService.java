@@ -1,8 +1,8 @@
-package TTechJavaTP.Product;
+package TTechJavaTP.products;
 
 import java.util.List;
 
-import TTechJavaTP.Utils.MenUtils;
+import TTechJavaTP.utils.MenUtils;
 
 public class ProductService {
 
@@ -49,11 +49,11 @@ public class ProductService {
     }
 
     public Product getProductByNameOrId(List<Product> products) {
-        System.out.println("# Obtener Producto #\n");
         if (products.isEmpty()) {
             System.out.println("No hay productos disponibles.");
             return null;
         }
+        System.out.println("# Obtener Producto #\n");
 
         int opNi = MenUtils.readInt("Buscar por: 1. Nombre\t2. ID\n", 1, 2);
         if (opNi == 1) {
@@ -80,11 +80,11 @@ public class ProductService {
     }
 
     public void updateProduct(List<Product> products) {
-        System.out.println("# Actualizar Producto #\n");
         if (products == null || products.isEmpty()) {
             System.out.println("No hay productos disponibles.");
             return;
         }
+        System.out.println("# Actualizar Producto #\n");
 
         int productId = MenUtils.readInt("Ingrese el ID del producto a actualizar: ", 0, Integer.MAX_VALUE);
         for (Product product : products) {
@@ -105,17 +105,25 @@ public class ProductService {
     }
 
     public void deleteProduct(List<Product> products) {
-        System.out.println("# Eliminar Producto #\n");
         if (products.isEmpty()) {
             System.out.println("No hay productos disponibles.");
             return;
         }
+        System.out.println("# Eliminar Producto #\n");
 
         int productId = MenUtils.readInt("Ingrese el ID del producto a eliminar: ", 0, Integer.MAX_VALUE);
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).getProductId() == productId) {
-                products.remove(i);
-                System.out.println("Producto eliminado.");
+                System.out.println(products.get(i).toString());
+                System.out.println("<!> Esta accion no se puede deshacer <!>");
+                
+                String confirm = MenUtils.readString("Escriba 'SI' para confirmar: ");
+                if (confirm.equalsIgnoreCase("SI")) {
+                    products.remove(i);
+                    System.out.println("Producto eliminado.");
+                } else {
+                    System.out.println("Cancelado.");
+                }
                 return;
             }
         }

@@ -1,10 +1,11 @@
-package TTechJavaTP.Order;
+package TTechJavaTP.orders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import TTechJavaTP.Product.*;
-import TTechJavaTP.Utils.MenUtils;
+import TTechJavaTP.exceptions.insufficientStockException;
+import TTechJavaTP.products.*;
+import TTechJavaTP.utils.MenUtils;
 
 public class OrderService {
 
@@ -22,21 +23,20 @@ public class OrderService {
             switch (opOr) {
                 case 1 -> addOrder(orders, products);
                 case 2 -> listOrders(orders);
-                case 3 -> System.out.println("Saliendo...");
+                case 3 -> System.out.println("<=\n");
             }
-        } while (opOr != options.length);       
+        } while (opOr != options.length);
     }
 
     public void addOrder(List<Order> orders, List<Product> products) {
-        ProductService productService = new ProductService();
-        List<Product> lineOrder = new ArrayList<>();
-
         if (products.isEmpty()) {
             System.out.println("No hay productos disponibles.");
             return;
         }
-
         System.out.println("# Crear Pedido #\n");
+
+        ProductService productService = new ProductService();
+        List<Product> lineOrder = new ArrayList<>();
 
         String customerName = MenUtils.readString("Ingrese el nombre del cliente: ");
         System.out.println("Ingrese los productos a comprar (por ID) o '0' para terminar:");
@@ -62,34 +62,43 @@ public class OrderService {
                 continue;
             }
 
-            int opNi = MenUtils.readInt("Cantidad: ", 1, selectedProduct.getProductQuantity());
-            if (opNi > selectedProduct.getProductQuantity()) {
-                System.out.println("No hay suficiente stock.");
-                continue;
+            try {
+                if (selectedProduct.getProductQuantity() == 0) {
+                    throw new insufficientStockException("El producto " + selectedProduct.getProductName() + " no está disponible.");
+                }
+
+                int opNi = MenUtils.readInt("Cantidad: ", 1, Integer.MAX_VALUE);
+
+                if (opNi > selectedProduct.getProductQuantity()) {
+                    throw new insufficientStockException("Stock insuficiente para el producto " + selectedProduct.getProductName() +
+                        ". Stock disponible: " + selectedProduct.getProductQuantity());
+                }
+
+                Product aux = new Product(selectedProduct.getProductName(), selectedProduct.getProductPrice() * opNi, opNi);
+                total += selectedProduct.getProductPrice() * opNi;
+                selectedProduct.setProductQuantity(selectedProduct.getProductQuantity() - opNi);
+
+                lineOrder.add(aux);
+                System.out.println("Producto agregado: " + aux.toString());
+            } catch (insufficientStockException e) {
+                System.out.println(e.getMessage());
             }
-
-            Product aux = new Product(selectedProduct.getProductName(), selectedProduct.getProductPrice() * opNi, opNi);
-            total += selectedProduct.getProductPrice() * opNi;
-            selectedProduct.setProductQuantity(selectedProduct.getProductQuantity() - opNi);
-
-            lineOrder.add(aux);
-            System.out.println("Producto agregado: " + aux.toString());
         }
 
         if (!lineOrder.isEmpty()) {
             orders.add(new Order(customerName, total, lineOrder));
-            System.out.println("Total del pedido: $" + total);
+            System.out.println("* Total del pedido: $" + total + " *");
         } else {
             System.out.println("No se agregaron productos al pedido.");
         }
     }
 
     public void listOrders(List<Order> orders) {
-        System.out.println("# Listar Pedidos #\n");
         if (orders.isEmpty()) {
             System.out.println("No hay pedidos disponibles.");
             return;
         }
+        System.out.println("# Listar Pedidos #\n");
 
         for (int i = 0; i < orders.size(); i++) {
             System.out.println(orders.get(i).toString());

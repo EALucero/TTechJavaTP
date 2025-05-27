@@ -1,4 +1,4 @@
-package TTechJavaTP.Product;
+package TTechJavaTP.products;
 
 public class Product {
     private int id;

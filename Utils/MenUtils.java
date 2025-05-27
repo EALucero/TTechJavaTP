@@ -1,4 +1,4 @@
-package TTechJavaTP.Utils;
+package TTechJavaTP.utils;
 
 import java.util.Scanner;
 
