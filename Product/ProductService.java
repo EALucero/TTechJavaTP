@@ -61,41 +61,14 @@ public class ProductService {
     }
 
     public void createProduct(List<Product> products) {
-        Scanner scP = new Scanner(System.in);
-
         System.out.println("# Crear Producto #\n");
-        String name;
-        double price = 0;
-        int quantity = 0;
-
-        System.out.println("Ingrese el nombre:");
-        name = scP.nextLine();
-
-        while (true) {
-            System.out.println("Ingrese el precio:");
-            try {
-                price = Double.parseDouble(scP.nextLine());
-                if (price < 0) throw new NumberFormatException();
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("Precio inválido. Intente de nuevo.");
-            }
-        }
-
-        while (true) {
-            System.out.println("Ingrese la cantidad:");
-            try {
-                quantity = Integer.parseInt(scP.nextLine());
-                if (quantity < 0) throw new NumberFormatException();
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("Cantidad inválida. Intente de nuevo.");
-            }
-        }
+        String name = MenUtils.readString("Ingrese el nombre: ");
+        double price = MenUtils.readDouble("Ingrese el precio: ", 0, Double.MAX_VALUE);
+        int quantity = MenUtils.readInt("Ingrese la cantidad: ", 0, Integer.MAX_VALUE);
 
         Product pr = new Product(name, price, quantity);
         products.add(pr);
-        System.out.println("Product created: " + pr.toString());
+        System.out.println("Producto creado: " + pr.toString());
     }
 
     public void listProducts(List<Product> products) {
@@ -119,7 +92,8 @@ public class ProductService {
         while (true) {
             try {
                 opNi = Integer.parseInt(sc.nextLine());
-                if (opNi == 1 || opNi == 2) break;
+                if (opNi == 1 || opNi == 2)
+                    break;
                 System.out.println("Opción inválida:\n1. Nombre\t2. ID");
             } catch (NumberFormatException e) {
                 System.out.println("Debe ingresar un número válido.");
@@ -195,7 +169,8 @@ public class ProductService {
                         System.out.println("Ingrese el nuevo precio del producto:");
                         try {
                             price = Double.parseDouble(scU.nextLine());
-                            if (price < 0) throw new NumberFormatException();
+                            if (price < 0)
+                                throw new NumberFormatException();
                             break;
                         } catch (NumberFormatException e) {
                             System.out.println("Precio inválido. Intente de nuevo.");
@@ -206,7 +181,8 @@ public class ProductService {
                         System.out.println("Ingrese la nueva cantidad del producto:");
                         try {
                             quantity = Integer.parseInt(scU.nextLine());
-                            if (quantity < 0) throw new NumberFormatException();
+                            if (quantity < 0)
+                                throw new NumberFormatException();
                             break;
                         } catch (NumberFormatException e) {
                             System.out.println("Cantidad inválida. Intente de nuevo.");

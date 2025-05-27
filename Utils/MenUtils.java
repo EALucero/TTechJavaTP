@@ -30,4 +30,77 @@ public class MenUtils {
         }
         return op;
     }
+
+    public static int readInt(String prompt, int min, int max) {
+        int value;
+        while (true) {
+            System.out.print(prompt);
+            try {
+                value = Integer.parseInt(sc.nextLine());
+                if (value < min || value > max) {
+                    System.out.println("Debe ingresar un número entre " + min + " y " + max + ".");
+                } else {
+                    return value;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
+            }
+        }
+    }
+
+    public static int readInt(String prompt) {
+        int value;
+        while (true) {
+            System.out.print(prompt);
+            try {
+                value = Integer.parseInt(sc.nextLine());
+                return value;
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
+            }
+        }
+    }
+
+    public static double readDouble(String prompt, double min, double max) {
+        double value;
+        while (true) {
+            System.out.print(prompt);
+            try {
+                value = Double.parseDouble(sc.nextLine());
+                if (value < min || value > max) {
+                    System.out.println("Debe ingresar un número entre " + min + " y " + max + ".");
+                } else {
+                    return value;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
+            }
+        }
+    }
+
+    public static double readDouble(String prompt) {
+        double value;
+        while (true) {
+            System.out.print(prompt);
+            try {
+                value = Double.parseDouble(sc.nextLine());
+                return value;
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
+            }
+        }
+    }
+
+    public static String readString(String prompt) {
+        String value;
+        while (true) {
+            System.out.print(prompt);
+            value = sc.nextLine();
+            if (!value.trim().isEmpty()) {
+                return value;
+            } else {
+                System.out.println("El texto no puede estar vacío.");
+            }
+        }
+    }
 }
