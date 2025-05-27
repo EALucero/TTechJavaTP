@@ -1,8 +1,8 @@
-package PE_EAL.Order;
+package TTechJavaTP.Order;
 
 import java.util.ArrayList;
 import java.util.List;
-import PE_EAL.Product.Product;
+import TTechJavaTP.Product.Product;
 
 public class Order {
     private int id;
@@ -43,7 +43,7 @@ public class Order {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 

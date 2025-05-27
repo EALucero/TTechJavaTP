@@ -1,4 +1,4 @@
-package PE_EAL.Utils;
+package TTechJavaTP.Utils;
 
 import java.util.Scanner;
 
@@ -12,16 +12,22 @@ public class MenUtils {
     }
 
     public static int getOption(int min, int max, String[] options) {
-        System.out.println("Elija una opción:\n");
-        printOptions(options);
-        int op = sc.nextInt();
-
-        while (op < min || op > max) {
-            System.out.println("Opción inválida:\n");
+        int op = -1;
+        boolean valid = false;
+        while (!valid) {
+            System.out.println("Elija una opción:\n");
             printOptions(options);
-            op = sc.nextInt();
+            try {
+                op = Integer.parseInt(sc.nextLine());
+                if (op >= min && op <= max) {
+                    valid = true;
+                } else {
+                    System.out.println("Opción fuera de rango.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
+            }
         }
-
         return op;
     }
 }
