@@ -53,6 +53,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "ID: " + id + "Cliente: " + name + ", Total: $" + total + ".";
+        return "ID: " + id + ", Cliente: " + name + ", Total: $" + total + ".";
     }
 }
