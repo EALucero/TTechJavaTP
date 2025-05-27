@@ -1,6 +1,10 @@
 package TTechJavaTP.utils;
 
+import java.util.List;
 import java.util.Scanner;
+
+import TTechJavaTP.orders.Order;
+import TTechJavaTP.products.Product;
 
 public class MenUtils {
     public static final Scanner sc = new Scanner(System.in);
@@ -29,6 +33,14 @@ public class MenUtils {
             }
         }
         return op;
+    }
+
+    public static <T> boolean validateList(String prompt, List<T> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("No hay " + prompt + " disponibles.");
+            return false;
+        }
+        return true;
     }
 
     public static int readInt(String prompt, int min, int max) {

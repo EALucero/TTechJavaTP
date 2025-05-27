@@ -43,16 +43,14 @@ public class ProductService {
     }
 
     public void listProducts(List<Product> products) {
+        if (!MenUtils.validateList("productos", products)) return;
         for (int i = 0; i < products.size(); i++) {
             System.out.println(products.get(i).toString());
         }
     }
 
     public Product getProductByNameOrId(List<Product> products) {
-        if (products.isEmpty()) {
-            System.out.println("No hay productos disponibles.");
-            return null;
-        }
+        if (!MenUtils.validateList("productos", products)) return null;
         System.out.println("# Obtener Producto #\n");
 
         int opNi = MenUtils.readInt("Buscar por: 1. Nombre\t2. ID\n", 1, 2);
@@ -80,10 +78,7 @@ public class ProductService {
     }
 
     public void updateProduct(List<Product> products) {
-        if (products == null || products.isEmpty()) {
-            System.out.println("No hay productos disponibles.");
-            return;
-        }
+        if (!MenUtils.validateList("productos", products)) return;
         System.out.println("# Actualizar Producto #\n");
 
         int productId = MenUtils.readInt("Ingrese el ID del producto a actualizar: ", 0, Integer.MAX_VALUE);
@@ -105,10 +100,7 @@ public class ProductService {
     }
 
     public void deleteProduct(List<Product> products) {
-        if (products.isEmpty()) {
-            System.out.println("No hay productos disponibles.");
-            return;
-        }
+        if (!MenUtils.validateList("productos", products)) return;
         System.out.println("# Eliminar Producto #\n");
 
         int productId = MenUtils.readInt("Ingrese el ID del producto a eliminar: ", 0, Integer.MAX_VALUE);
@@ -116,7 +108,7 @@ public class ProductService {
             if (products.get(i).getProductId() == productId) {
                 System.out.println(products.get(i).toString());
                 System.out.println("<!> Esta accion no se puede deshacer <!>");
-                
+
                 String confirm = MenUtils.readString("Escriba 'SI' para confirmar: ");
                 if (confirm.equalsIgnoreCase("SI")) {
                     products.remove(i);

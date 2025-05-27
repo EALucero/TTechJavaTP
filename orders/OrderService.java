@@ -29,10 +29,7 @@ public class OrderService {
     }
 
     public void addOrder(List<Order> orders, List<Product> products) {
-        if (products.isEmpty()) {
-            System.out.println("No hay productos disponibles.");
-            return;
-        }
+        if (!MenUtils.validateList("productos", products)) return;;
         System.out.println("# Crear Pedido #\n");
 
         ProductService productService = new ProductService();
@@ -94,10 +91,7 @@ public class OrderService {
     }
 
     public void listOrders(List<Order> orders) {
-        if (orders.isEmpty()) {
-            System.out.println("No hay pedidos disponibles.");
-            return;
-        }
+        if (!MenUtils.validateList("pedidos", orders)) return;
         System.out.println("# Listar Pedidos #\n");
 
         for (int i = 0; i < orders.size(); i++) {
