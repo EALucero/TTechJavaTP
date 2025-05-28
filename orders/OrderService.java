@@ -65,7 +65,6 @@ public class OrderService {
                 }
 
                 int opNi = MenUtils.readInt("Cantidad: ", 1, Integer.MAX_VALUE);
-
                 if (opNi > selectedProduct.getProductQuantity()) {
                     throw new insufficientStockException("Stock insuficiente para el producto " + selectedProduct.getProductName() +
                         ". Stock disponible: " + selectedProduct.getProductQuantity());
