@@ -3,9 +3,6 @@ package TTechJavaTP.utils;
 import java.util.List;
 import java.util.Scanner;
 
-import TTechJavaTP.orders.Order;
-import TTechJavaTP.products.Product;
-
 public class MenUtils {
     public static final Scanner sc = new Scanner(System.in);
 

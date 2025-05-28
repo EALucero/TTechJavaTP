@@ -47,7 +47,6 @@ public class Product {
         this.quantity = productQuantity;
     }
 
-
     public void show() {
         System.out.println("ID: " + id + " | Nombre: " + name + " | Precio: $" + price+ " | Cantidad: " + quantity);
     }
